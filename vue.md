@@ -1,6 +1,11 @@
 # 关于 ref 与 reactive
 
-在 Vue3 中，响应式系统使用 Proxy 实现对象的依赖收集和更新。对于基本类型，我们用 ref 来包裹，访问要通过 .value。对于对象或数组，我们用 reactive，它返回对象的代理，可以直接修改属性。
+在 Vue3 中，响应式系统使用 Proxy 实现对象的依赖收集和更新。ref 常用于基础类型，会返回一个带 .value 的对象；reactive 用于对象类型，通过 Proxy 实现深度响应。若需解构 reactive 仍保持响应式，可用 toRef 或 toRefs。若只需浅层追踪，可用 shallowRef 和 shallowReactive 优化性能。
+
+# Proxy
+
+在 ES6 中，Proxy 可以用来代理对象，对对象的读取、修改、删除等操作进行拦截。
+Vue3 使用 Proxy 取代 Vue2 的 Object.defineProperty，因为它支持更深层的嵌套对象、数组监听、动态属性添加删除等，解决了 Vue2 无法监听新属性或数组变更的问题。
 
 # computed 计算属性
 
@@ -46,7 +51,7 @@ Provide/Inject
 
 # 生命周期
 
-Vue 组件生命周期分为创建、挂载、更新、销毁四大阶段，每个阶段都有对应钩子函数，例如 created、mounted、updated 等。
+Vue2 时 组件生命周期分为创建 beforecreate，created、挂载 beforemount，mounted、更新 beforeupdate,updated、销毁 beforeunmount,unmounted 八大阶段,在 Vue3 中，beforeCreate 和 created 被整合进 setup()，因为 Composition API 让开发者能在 setup 阶段访问 props 和 context。而且生命周期函数现在都以 onXxx 形式导入使用，比如 import { onMounted } from 'vue'
 
 # 响应式原理
 
@@ -55,6 +60,7 @@ Vue 2
 缺点：
 需要递归遍历对象，深层对象需提前定义好，否则无法监听新增属性。
 无法检测数组索引变化和新增属性。
+
 Vue 3
 核心：Proxy + Reflect
 优点：
