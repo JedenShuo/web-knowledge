@@ -34,3 +34,36 @@
    js 的加载可能触发 dom 改变，浏览器重排（reflow）或重绘（repaint）
    浏览器会根据响应头决定是否保存静态资源方便下次加载更快
    浏览器检查脚本，cookie，接口请求是否遵守同源或 cors 规则
+
+# HTTP
+
+http 是超文本传输协议，规定了浏览器和服务器之间如何请求传输数据
+http1.1：基于 TCP 协议广泛使用，支持长连接，无需重复连接，但请求依次响应，外发同时发多个请求
+http2：二进制传输，多路复用，一个连接可同时传递多条请求无需如 1.1 排队，有头部压缩，服务器主动推送
+http3：基于 QUCI 协议解决了 TCP 堵塞，请求独立输送，丢包无影响，内置 tls1.3 加密更安全，支持连接迁移
+
+## TCP 与 QUIC
+
+## 状态码
+
+1xx：信息响应
+2xx：成功连接
+3xx：重定向，301 永久，302 临时
+4xx：客户端错误，400bad request,401 未授权，404 未找到，403 禁止访问
+5xx：服务器错误，500 服务器错误，501 网关错误，504 超时
+
+## 报文结构
+
+1. 请求报文 request
+   请求行：get/index.html http/1.1
+   请求头：Host，User-Agent，Cookie，Accept。。。
+   请求体：POST 数据（JSON，Form，文件等）
+2. 响应报文 response
+   状态行：HTTP/1.1 200 OK
+   响应头：Content-Type，Content-Length，Set-Cookie，Cache-Control..
+   响应体：HTML，JSON，图片，视频等
+
+## 缓存机制
+
+浏览器缓存有强缓存与协商缓存
+强缓存通过 Cache-Contorl 或 Expirse 控制，在有效期可直接使用
